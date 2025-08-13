@@ -33,13 +33,12 @@ async function validateToken(token: string) {
     try{
         await api.get("/me", {
             headers: {
-                Authorization: `bearer ${token}`
+                Authorization: `Bearer ${token}`
             }
         })
         return true;
 
     }catch(err){
-        console.log(err);
         return false;
     }
 

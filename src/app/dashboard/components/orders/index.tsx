@@ -1,13 +1,43 @@
-import  style  from './styles.module.scss'
+"use client"
+import { use } from 'react'
+import  styles  from './styles.module.scss'
 import {RefreshCw} from 'lucide-react'
+import { OrderProps } from '@/lib/order.types'
+import { Modalorder } from '../Modal'
+import { OrderContext } from '@/providers/order'
+import {useRouter} from 'next/navigation'
+import { toast } from 'sonner'
 
-export function Orders (){
+
+interface Props{
+    orders: OrderProps[]
+}
+
+
+export function Orders ({ orders }: Props){
+    const { isOpen, onRequestOpen} = use(OrderContext)
+    const router = useRouter();
+
+    async function handleDetailOrder( order_id : string){
+       await onRequestOpen(order_id)
+    }
+
+    function handleRefresh(){
+        router.refresh();
+        toast.success("Pedido atualizado com sucesso!")
+
+    }
+
+
+
     return(
+        <>
+
         <main className={styles.container}>
 
             <section className={styles.containerHeader}>
-                <h1>Ultimo pedidos</h1>
-                <button>
+                <h1>Ultimos pedidos</h1>
+                <button onClick={handleRefresh}>
                     <RefreshCw size={24} color="#3fffa3"/>
 
                 </button>
@@ -15,23 +45,35 @@ export function Orders (){
             </section>
 
             <section className={styles.listOrders}>
-                <button className={styles.orderItem}>
+                {orders.length === 0 && (
+                    <span className={styles.emptyItem}>
+                        Nenhum pedido aberto no momento...
+
+
+                    </span>
+                )}
+
+
+
+                {orders.map( order => (
+                    <button key={order.id}
+                    className={styles.orderItem}
+                    onClick={ () => handleDetailOrder (order.id)}>
                     <div className={styles.tag}></div>
-                    <span>Mesa 10</span>
+                    <span>Mesa {order.table}</span>
 
                 </button>
 
-                <button className={styles.orderItem}>
-                    <div className={styles.tag}></div>
-                    <span>Mesa 13</span>
-
-                </button>
-
+                ))}
+                
             </section>
 
 
         
         
         </main>
+
+            {isOpen && <Modalorder/> }
+        </>
     )
 }

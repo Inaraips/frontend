@@ -1,7 +1,7 @@
 .container{
-    max-width: 72px;
+    max-width: 720px;
     margin: 20px auto;
-    padding: o 16px;
+    padding: 0 16px;
 
     display: flex;
     justify-content: space-between;
@@ -23,7 +23,7 @@
 
     button{
         background: transparent;
-        border:0
+        border:0;
     }
 
 }
@@ -41,7 +41,7 @@
     font-size: 18px;
     border-radius: 8px;
     color: var(--white);
-    transition: all o.5s;
+    transition: all 0.5s;
 
     &:hover{
         filter:brightness(1.20)
@@ -55,4 +55,8 @@
     background-color: var(--green-900);
     border-radius: 6px 0 0 6px ;
     margin-right: 16px;
+}
+
+.emptyItem{
+    color: var(--gray-100);
 }
